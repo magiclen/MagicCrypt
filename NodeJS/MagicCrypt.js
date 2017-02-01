@@ -71,15 +71,30 @@ function MagicCrypt(key = '', bit = 128, iv = '') {
         var crypted = cipher.update(str, 'utf8', 'base64');
         crypted += cipher.final('base64');
         return crypted;
-    }
+    };
+
+    this.encryptData = function (dataBuffer) {
+        var algorithm = (mBit > 64) ? 'aes-' + mBit + '-cbc' : 'des-cbc';
+        var cipher = crypto.createCipheriv(algorithm, mKey, mIV);
+        var crypted = Buffer.concat([cipher.update(dataBuffer), cipher.final()]);
+        return crypted.toString('base64');
+    };
 
     this.decrypt = function (str) {
         var algorithm = (mBit > 64) ? 'aes-' + mBit + '-cbc' : 'des-cbc';
         var cipher = crypto.createDecipheriv(algorithm, mKey, mIV);
-        var crypted = cipher.update(str, 'base64', 'utf-8');
-        crypted += cipher.final('utf-8');
-        return crypted;
-    }
+        var decrypted = cipher.update(str, 'base64', 'utf-8');
+        decrypted += cipher.final('utf-8');
+        return decrypted;
+    };
+
+    this.decryptData = function (dataBase64) {
+        var buffer = new Buffer(dataBase64, 'base64');
+        var algorithm = (mBit > 64) ? 'aes-' + mBit + '-cbc' : 'des-cbc';
+        var cipher = crypto.createDecipheriv(algorithm, mKey, mIV);
+        var decrypted = Buffer.concat([cipher.update(buffer), cipher.final()]);
+        return decrypted;
+    };
 
     function crc64Table() {
         var POLY64REV = new Long(0xD7870F42, 0xC96C5795);
