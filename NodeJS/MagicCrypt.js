@@ -41,7 +41,7 @@ function MagicCrypt(key = '', bit = 128, iv = '') {
                 case 192:
                     let temp = hash('tiger192', key);
                     // Convert to tiger192,3
-                    let key = '';
+                    key = '';
                     for (let i = 0; i < 3; ++i) {
                         for (let j = 7; j >= 0; --j) {
                             key += temp.substr((i * 16) + (j * 2), 2);
