@@ -16,9 +16,9 @@
  *
  */
 
-var crypto = require('crypto');
-var hash = require('mhash');
-var Long = require('long');
+const crypto = require('crypto');
+const hash = require('mhash');
+const Long = require('long');
 
 function MagicCrypt(key = '', bit = 128, iv = '') {
     var mKey, mBit, mIV;
@@ -39,11 +39,11 @@ function MagicCrypt(key = '', bit = 128, iv = '') {
                     key = hash('md5', key);
                     break;
                 case 192:
-                    var temp = hash('tiger192', key);
+                    let temp = hash('tiger192', key);
                     // Convert to tiger192,3
-                    var key = '';
-                    for (var i = 0; i < 3; ++i) {
-                        for (var j = 7; j >= 0; --j) {
+                    let key = '';
+                    for (let i = 0; i < 3; ++i) {
+                        for (let j = 7; j >= 0; --j) {
                             key += temp.substr((i * 16) + (j * 2), 2);
                         }
                     }
@@ -99,9 +99,9 @@ function MagicCrypt(key = '', bit = 128, iv = '') {
     function crc64Table() {
         var POLY64REV = new Long(0xD7870F42, 0xC96C5795);
         var LOOKUPTABLE = [];
-        for (var i = 0; i < 256; ++i) {
-            var v = new Long(i);
-            for (var j = 0; j < 8; ++j) {
+        for (let i = 0; i < 256; ++i) {
+            let v = new Long(i);
+            for (let j = 0; j < 8; ++j) {
                 if (v.and(1).equals(1)) {
                     v = v.shiftRightUnsigned(1).xor(POLY64REV);
                 } else {
@@ -118,8 +118,8 @@ function MagicCrypt(key = '', bit = 128, iv = '') {
         var LOOKUPTABLE = crc64Table();
         var dataLength = data.length;
         var sum = new Long(0);
-        for (var i = 0; i < dataLength; ++i) {
-            var lookupidx = sum.xor(data[i]).and(0xff);
+        for (let i = 0; i < dataLength; ++i) {
+            let lookupidx = sum.xor(data[i]).and(0xff);
             sum = sum.shiftRightUnsigned(8).xor(LOOKUPTABLE[lookupidx]);
         }
         return new Buffer([sum.shiftRightUnsigned(56).toInt(),
