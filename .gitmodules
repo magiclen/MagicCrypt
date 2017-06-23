@@ -1,0 +1,3 @@
+[submodule "node-magiccrypt"]
+	path = node-magiccrypt
+	url = git@github.com:magiclen/node-magiccrypt.git
