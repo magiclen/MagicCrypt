@@ -1,0 +1,6 @@
+[submodule "node-magiccrypt"]
+	path = node-magiccrypt
+	url = git@github.com:magiclen/node-magiccrypt.git
+[submodule "rust-magiccrypt"]
+	path = rust-magiccrypt
+	url = https://github.com/magiclen/rust-magiccrypt
